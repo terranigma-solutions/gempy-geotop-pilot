@@ -9,9 +9,10 @@ its supported packages.
 - [x] Prepare structure
     - [x] Test folder
     - [x] Examples folder
-- [ ] Read first data set with subsurface
-  - [ ] Read borehole data
-   
+- [x] Read first data set ?with subsurface
+  - [x] Read borehole data of one layer
+- [x] First attempt to interpolate
+- [ ] Start fine-tuning the interpolation
    
 ## Data thoughts
 
@@ -34,3 +35,9 @@ its supported packages.
 ** Auxiliary data **
 
 ** Topograpy **
+
+
+## Issues
+
+- (solved) Vertical exaggeration for pyvista plot is a bit broken and orientations did not show properly.
+- Pyvista volume does not show the right colors

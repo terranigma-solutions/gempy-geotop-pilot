@@ -4,5 +4,6 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="jdk" jdkName="Python 3.10.6 WSL (Ubuntu-22.04): (/home/leguark/.virtualenvs/gempy-geotop-pilot/bin/python)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module" module-name="gempy" />
   </component>
 </module>
