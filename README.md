@@ -27,17 +27,19 @@ its supported packages.
 
 - Directly supported by GemPy:
 
-** Borehole data **
+**Borehole data**
 - The specific way data is provided is not supported by subsurface out of the box.
 - ? Is it worth to make the effort to make it compatible with subsurface?
   - I will start by making the reader in this package and then I can decide if it is worth to move it to subsurface.
 
-** Auxiliary data **
+**Auxiliary data**
 
-** Topograpy **
+**Topography**
 
 
 ## Issues
 
 - (solved) Vertical exaggeration for pyvista plot is a bit broken and orientations did not show properly.
-- Pyvista volume does not show the right colors
+- (solved) Pyvista volume does not show the right colors
+  - The issue seems to be that pyvista is splitting the scalar field not exactly at 1.5
+  - **It was just float error**
