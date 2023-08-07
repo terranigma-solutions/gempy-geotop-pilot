@@ -28,7 +28,8 @@ def test_gempy_foo():
 
 def test_gempy_dummy_compute():
     geo_model = setup_AP_geomodel()
-    gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=False))
+    geo_model.interpolation_options.kernel_options.compute_condition_number = True
+    gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=True))
 
     gpv.plot_2d(geo_model, show_data=True, ve=100)
     if PLOT_3D:
@@ -76,7 +77,8 @@ def setup_AP_geomodel(add_z_anistoropy=False):
         x=data['X'].values,
         y=data['Y'].values,
         z=data['BOTTOM'].values,
-        names=data['surface'].values
+        names=data['surface'].values,
+        nugget=0.1
     )
 
     # * Create orientations table
@@ -87,7 +89,7 @@ def setup_AP_geomodel(add_z_anistoropy=False):
         G_x=np.array([0]),
         G_y=np.array([0]),
         G_z=np.array([1]),
-        names=data['surface'].values[[0]],
+        names=data['surface'].values[[0]]
     )
 
     structural_frame = gp.data.StructuralFrame.from_data_tables(
