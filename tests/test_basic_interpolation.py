@@ -2,6 +2,7 @@
 
 import gempy as gp
 import gempy_viewer as gpv
+from gempy.core.data.gempy_engine_config import GemPyEngineConfig
 from .test_read_data import test_read_boreholes_file
 
 PLOT_3D = True
@@ -27,12 +28,11 @@ def test_gempy_foo():
 
 def test_gempy_dummy_compute():
     geo_model = setup_AP_geomodel()
-    gp.set_interpolator(geo_model, theano_optimizer='fast_compile', verbose=[])
-    gp.compute_model(geo_model, compute_mesh=False, sort_surfaces=False)
+    gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=True))
 
-    gp.plot_2d(geo_model, show_data=True, ve=100)
+    gpv.plot_2d(geo_model, show_data=True, ve=100)
     if PLOT_3D:
-        gp.plot_3d(geo_model, ve=100)
+        gpv.plot_3d(geo_model, ve=100)
 
 
 def test_gempy_anisotropy_and_range():
