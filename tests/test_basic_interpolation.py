@@ -22,13 +22,13 @@ def test_gempy_foo():
                 'show_ylabels': False,
                 'show_zlabels': False,
             },
-            kwargs_plot_data={'arrow_size': 10000}
+            kwargs_plot_data={'arrow_size': 100}
         )
 
 
 def test_gempy_dummy_compute():
     geo_model = setup_AP_geomodel()
-    gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=True))
+    gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=False))
 
     gpv.plot_2d(geo_model, show_data=True, ve=100)
     if PLOT_3D:
@@ -83,10 +83,10 @@ def setup_AP_geomodel(add_z_anistoropy=False):
     orientations = gp.data.OrientationsTable.from_arrays(
         x=np.array([extent_from_data_raw[0] + (extent_from_data_raw[1] - extent_from_data_raw[0]) / 2]),
         y=np.array([extent_from_data_raw[2] + (extent_from_data_raw[3] - extent_from_data_raw[2]) / 2]),
-        z=np.array(extent_from_data_raw[5] * 5),  # * Move the orientation further to avoid influece
+        z=np.array(extent_from_data_raw[5] * 2),  # * Move the orientation further to avoid influece
         G_x=np.array([0]),
         G_y=np.array([0]),
-        G_z=np.array([-1]),
+        G_z=np.array([1]),
         names=data['surface'].values[[0]],
     )
 
