@@ -15,7 +15,12 @@ def test_gempy_foo():
         gempy_plot3d = gpv.plot_3d(
             model=geo_model,
             show_data=True,
-            ve=None,
+            ve=100,
+            kwargs_pyvista_bounds={
+                'show_xlabels': False,
+                'show_ylabels': False,
+                'show_zlabels': False,
+            },
             kwargs_plot_data={'arrow_size': 10000}
         )
 
