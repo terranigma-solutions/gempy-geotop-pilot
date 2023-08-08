@@ -40,6 +40,7 @@ def test_gempy_dummy_compute():
     kernel_options.kernel_solver = Solvers.DEFAULT
     kernel_options.compute_condition_number = True
     kernel_options.compute_weights = True
+    kernel_options.range = 2.5  # TODO: Explain this parameter properly
     
     gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=True))
 
