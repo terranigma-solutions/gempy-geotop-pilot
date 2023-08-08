@@ -14,7 +14,7 @@ def read_all_boreholes_data_to_df(path: str) -> pd.DataFrame:
     data_frames = []
     for f in csv_files:
         df = pd.read_csv(os.path.join(path, f))
-        df["surface"] = f.split(".")[0]
+        df["surface"] = f.split("_")[0]
         data_frames.append(df)
 
     # Combine all data frames into one

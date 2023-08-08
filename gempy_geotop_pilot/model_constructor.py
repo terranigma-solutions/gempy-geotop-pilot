@@ -39,3 +39,23 @@ def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
         structural_frame=structural_frame
     )
     return geo_model
+
+
+stratigraphy_pile = {
+    "1": "HL",
+        
+}
+
+
+def set_up_south_model(geo_model: gp.data.GeoModel):
+    
+    # TODO: [] Create possible stratigraphic groups
+    # TODO: [] Paint each group with the relevant colors
+    
+    pass
+
+
+
+
+
+
