@@ -19,5 +19,8 @@ def read_all_boreholes_data_to_df(path: str) -> pd.DataFrame:
 
     # Combine all data frames into one
     data = pd.concat(data_frames, ignore_index=True)
+    
+    # Remove rows with NaN values
+    data = data.dropna()
 
     return data

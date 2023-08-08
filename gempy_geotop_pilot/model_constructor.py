@@ -106,7 +106,7 @@ def color_elements(elements: list[gp.data.StructuralElement]):
         element.color = name_
 
 
-def set_up_south_model(geo_model: gp.data.GeoModel):
+def set_up_south_model(geo_model: gp.data.GeoModel, group_slicer: slice):
     
     # TODO: [x] Create possible stratigraphic groups
     # TODO: [x] Paint each group with the relevant colors
@@ -117,6 +117,21 @@ def set_up_south_model(geo_model: gp.data.GeoModel):
     )
     
     color_elements(geo_model.structural_frame.structural_elements)
+    
+    geo_model.structural_frame.structural_groups = geo_model.structural_frame.structural_groups[group_slicer]
+
+    xyz = geo_model.surface_points.xyz
+    extent = [
+        xyz[:, 0].min(), xyz[:, 0].max(),
+        xyz[:, 1].min(), xyz[:, 1].max(),
+        xyz[:, 2].min(), xyz[:, 2].max()
+    ]
+    
+    geo_model.grid.regular_grid.set_regular_grid(
+        extent=extent,
+        resolution= np.array([50, 50, 50])
+    )
+    
     
 
 

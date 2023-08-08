@@ -33,7 +33,10 @@ def test_read_all_boreholes_data_to_df():
 def test_config_south():
     data_south = read_all_boreholes_data_to_df(path_to_south)
     geo_model =  initialize_geomodel(data_south)
-    set_up_south_model(geo_model)
+    set_up_south_model(
+        geo_model=geo_model,
+        group_slicer=slice(0, 1)
+    )
     print(geo_model.structural_frame)
     
     plot_geotop(geo_model)
