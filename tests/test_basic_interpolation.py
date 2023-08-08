@@ -33,8 +33,10 @@ def test_gempy_dummy_compute():
         add_z_anistoropy=True  # ! I am not adding aniostropy here
     )
 
-    kernel_options = geo_model.interpolation_options.kernel_options
+    options = geo_model.interpolation_options
+    options.dual_contouring_fancy = False
     
+    kernel_options = options.kernel_options
     kernel_options.kernel_solver = Solvers.DEFAULT
     kernel_options.compute_condition_number = True
     kernel_options.compute_weights = True
