@@ -40,19 +40,84 @@ def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
     )
     return geo_model
 
+"""
+HL
+BX KR BE KW WB EE KROE DR DT DN URTY PE UR ST AP SY PZWA
+MS 
+KI
+OO
+IE BR
+VE RU TO DO LA HT HO MT GU VA AK
+
+"""
+
 
 stratigraphy_pile = {
     "1": "HL",
-        
+    "2": ("BX", "KR", "BE", "KW", "WB", "EE", "KROE", "DR", "DT", "DN", "URTY", "PE", "UR", "ST", "AP", "SY", "PZWA"),
+    "3": "MS",
+    "4": "KI",
+    "5": "OO",
+    "6": ("IE", "BR"),
+    "7": ("VE", "RU", "TO", "DO", "LA", "HT", "HO", "MT", "GU", "VA", "AK")
 }
+
+elements_colors = {
+    "HL": "#0c810c",
+    "BX": "#ffeb00",
+    "KR": "#af2d5e",
+    "BE": "#c8c8ff",
+    "KW": "#aca92b",
+    "WB": "#89431e",
+    "EE": "#89431e",
+    "KROE": "#ba3f79",
+    "DR": "#ff7f50",
+    "DT": "#9d9d9d",
+    "DN": "#fafad2",
+    "URTY": "#a9a357",
+    "PE": "#ee82ee",
+    "UR": "#bdb76b",
+    "ST": "#cd5c5c",
+    "AP": "#daa520",
+    "SY": "#ffe4b5",
+    "PZWA": "#ffcc00",
+    "MS": "#87ceeb",
+    "KI": "#bc8f8f",
+    "OO": "#769d27",
+    "IE": "#ec79c1",
+    "BR": "#6cbc96",
+    "VE": "#666410",
+    "RU": "#b87bee",
+    "TO": "#5a9fdb",
+    "DO": "#d8bfd8",
+    "LA": "#d02090",
+    "HT": "#b42828",
+    "HO": "#d2691e",
+    "MT": "#ffa066",
+    "GU": "#f5deb3",
+    "VA": "#15994f",
+    "AK": "#98e7cd"
+}
+    
+    
+def color_elements(elements: list[gp.data.StructuralElement]):
+    for element in elements:
+        name_ = elements_colors.get(element.name, "#000000")  # ? I think this is black. Not good for basement
+        element.color = name_
 
 
 def set_up_south_model(geo_model: gp.data.GeoModel):
     
-    # TODO: [] Create possible stratigraphic groups
-    # TODO: [] Paint each group with the relevant colors
+    # TODO: [x] Create possible stratigraphic groups
+    # TODO: [x] Paint each group with the relevant colors
     
-    pass
+    gp.map_stack_to_surfaces(
+        gempy_model=geo_model,
+        mapping_object= stratigraphy_pile # TODO: This mapping I do not like it too much. We should be able to do it passing the data objects directly
+    )
+    
+    color_elements(geo_model.structural_frame.structural_elements)
+    
 
 
 

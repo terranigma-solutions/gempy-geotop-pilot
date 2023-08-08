@@ -4,6 +4,7 @@ from dotenv import load_dotenv, dotenv_values
 
 from gempy_geotop_pilot.model_constructor import initialize_geomodel, set_up_south_model
 from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df
+from gempy_geotop_pilot.utils import plot_geotop
 
 config = dotenv_values()
 path_to_south = config.get('BOREHOLES_SOUTH_FOLDER')
@@ -34,3 +35,6 @@ def test_config_south():
     geo_model =  initialize_geomodel(data_south)
     set_up_south_model(geo_model)
     print(geo_model.structural_frame)
+    
+    plot_geotop(geo_model)
+    
