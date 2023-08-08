@@ -27,10 +27,18 @@ def test_gempy_foo():
 
 
 def test_gempy_dummy_compute():
+    from gempy_engine.core.data.kernel_classes.solvers import Solvers
+    
     geo_model = setup_AP_geomodel(
         add_z_anistoropy=True  # ! I am not adding aniostropy here
     )
-    geo_model.interpolation_options.kernel_options.compute_condition_number = True
+
+    kernel_options = geo_model.interpolation_options.kernel_options
+    
+    kernel_options.kernel_solver = Solvers.DEFAULT
+    kernel_options.compute_condition_number = True
+    kernel_options.compute_weights = True
+    
     gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=True))
 
     gpv.plot_2d(
@@ -83,7 +91,7 @@ def setup_AP_geomodel(add_z_anistoropy=False):
     geo_model = gp.create_geomodel(
         project_name='Model1',
         extent=extent_from_data_raw,
-        number_octree_levels=6,
+        number_octree_levels=4,
         structural_frame=structural_frame
     )
 
