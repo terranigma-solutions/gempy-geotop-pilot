@@ -27,38 +27,21 @@ def test_gempy_foo():
 
 
 def test_gempy_dummy_compute():
-    geo_model = setup_AP_geomodel()
+    geo_model = setup_AP_geomodel(
+        add_z_anistoropy=True  # ! I am not adding aniostropy here
+    )
     geo_model.interpolation_options.kernel_options.compute_condition_number = True
     gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=True))
 
-    gpv.plot_2d(geo_model, show_data=True, ve=100)
-    if PLOT_3D:
-        gpv.plot_3d(geo_model, ve=100)
-
-
-def test_gempy_anisotropy_and_range():
-    geo_model: gp.Project = setup_AP_geomodel(add_z_anistoropy=True)
-
-    gp.set_interpolator(geo_model, theano_optimizer='fast_compile', verbose=[])
-
-    # * Reduce range
-    geo_model.modify_kriging_parameters('range', 10000)
-    geo_model._additional_data.kriging_data.set_default_c_o()
-    geo_model.update_additional_data()
-
-    geo_model.modify_surface_points(
-        indices=geo_model.surface_points.df.index.values,
-        smooth=1000
+    gpv.plot_2d(
+        geo_model,
+        show_data=True, 
+        show_boundaries=False,
+        ve=10
     )
-
-    gp.compute_model(geo_model, compute_mesh=True, sort_surfaces=True)
-
-    gp.plot_2d(geo_model, show_data=True, ve=1)
-    gp.plot_2d(geo_model, cell_number=0, show_data=True, ve=1)
-    gp.plot_2d(geo_model, cell_number=-1, show_data=True, ve=1)
-
     if PLOT_3D:
-        gp.plot_3d(geo_model, ve=None)
+        gpv.plot_3d(geo_model, ve=None)
+
 
 
 def setup_AP_geomodel(add_z_anistoropy=False):
@@ -78,7 +61,7 @@ def setup_AP_geomodel(add_z_anistoropy=False):
         y=data['Y'].values,
         z=data['BOTTOM'].values,
         names=data['surface'].values,
-        nugget=0.1
+        nugget=0.01
     )
 
     # * Create orientations table
@@ -100,7 +83,7 @@ def setup_AP_geomodel(add_z_anistoropy=False):
     geo_model = gp.create_geomodel(
         project_name='Model1',
         extent=extent_from_data_raw,
-        number_octree_levels=4,
+        number_octree_levels=6,
         structural_frame=structural_frame
     )
 
