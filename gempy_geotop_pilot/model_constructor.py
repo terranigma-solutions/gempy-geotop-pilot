@@ -16,8 +16,8 @@ def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
         y=data['Y'].values,
         z=data['BOTTOM'].values,
         names=data['surface'].values,
-        nugget=10.01,
-        # nugget = 00.01
+        # nugget=10.01,
+        nugget = 00.01
     )
    
     structural_frame = gp.data.StructuralFrame.from_data_tables(
@@ -30,7 +30,7 @@ def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
     geo_model = gp.create_geomodel(
         project_name='Model1',
         extent=extent_from_data_raw,
-        number_octree_levels=4,
+        number_octree_levels=5,
         structural_frame=structural_frame
     )
     return geo_model

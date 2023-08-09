@@ -14,6 +14,7 @@ def plot_geotop(geo_model, ve=1, image_3d=True):
         gempy_plot3d = gpv.plot_3d(
             model=geo_model,
             show_data=True,
+            show_lith=False,
             ve=ve,
             image=False,
             kwargs_pyvista_bounds={

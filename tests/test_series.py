@@ -69,17 +69,6 @@ def test_gempy_compute_group_2():
     # TODO: [ ] Import fault data. This should improve the condition number
     
     gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=True))
-    """
-    Profile:
-    - Nugget 10:
-        - 1 CG Iteration WITH dual contouring 26s | float64
-        - 1 CG Iteration WITHOUT dual contouring 14s | float64
-        - 1 CG Iteration WITHOUT dual contouring 14s | float32
-    - Nugget 0.01:
-        - 1 CG Iteration WITHOUT dual contouring 15s | float32
-    """
-    
-    
     plot_geotop(geo_model, 1000, image_3d=False)
 
 
