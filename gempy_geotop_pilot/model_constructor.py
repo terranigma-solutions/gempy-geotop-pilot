@@ -16,7 +16,7 @@ def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
         y=data['Y'].values,
         z=data['BOTTOM'].values,
         names=data['surface'].values,
-        nugget=0.01
+        nugget=10.01
     )
    
     structural_frame = gp.data.StructuralFrame.from_data_tables(
@@ -48,7 +48,8 @@ VE RU TO DO LA HT HO MT GU VA AK
 
 stratigraphy_pile = {
     "1": "HL",
-    "2": ("BX", "KR", "BE", "KW", "WB", "EE", "KROE", "DR", "DT", "DN", "URTY", "PE", "UR", "ST", "AP", "SY", "PZWA"),
+    "1.5": ("BX", "KR", "BE", "KW", "WB", "EE", "KROE"),
+    "2": ("DR", "DT", "DN", "URTY", "PE", "UR", "ST", "AP", "SY", "PZWA"),
     "3": "MS",
     "4": "KI",
     "5": "OO",
