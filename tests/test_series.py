@@ -54,11 +54,12 @@ def test_gempy_compute_group_2():
         geo_model=geo_model
     )
 
+    geo_model.interpolation_options.dual_contouring = True
+
     kernel_options = geo_model.interpolation_options.kernel_options
     kernel_options.kernel_solver = Solvers.SCIPY_CG
     kernel_options.compute_condition_number = True
 
-    geo_model.surface_points
     kernel_options.range = 2  # TODO: Explain this parameter properly
     geo_model.transform.scale[2] /= 6.5  # * This is a 6 factor on top of the unit cube
     # plot_geotop(geo_model, 1000)
@@ -68,7 +69,18 @@ def test_gempy_compute_group_2():
     # TODO: [ ] Import fault data. This should improve the condition number
     
     gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=True))
-    plot_geotop(geo_model, 1000)
+    """
+    Profile:
+    - Nugget 10:
+        - 1 CG Iteration WITH dual contouring 26s | float64
+        - 1 CG Iteration WITHOUT dual contouring 14s | float64
+        - 1 CG Iteration WITHOUT dual contouring 14s | float32
+    - Nugget 0.01:
+        - 1 CG Iteration WITHOUT dual contouring 15s | float32
+    """
+    
+    
+    plot_geotop(geo_model, 1000, image_3d=False)
 
 
 # TODO: Decide if we want to move this functions somewhere else
@@ -76,9 +88,6 @@ def _prepare_model():
     data: pd.DataFrame = read_all_boreholes_data_to_df(path_to_south)
     geo_model: gp.data.GeoModel = initialize_geomodel(data)
     return geo_model
-
-
-    
 
 
 def _create_default_orientation(extent, geo_model):

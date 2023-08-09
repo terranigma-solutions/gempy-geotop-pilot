@@ -3,7 +3,7 @@
 PLOT_3D = True
 
 
-def plot_geotop(geo_model, ve=1):
+def plot_geotop(geo_model, ve=1, image_3d=True):
     """Specific function to plot the geotop model."""
     
     gpv.plot_2d(geo_model, 
@@ -15,6 +15,7 @@ def plot_geotop(geo_model, ve=1):
             model=geo_model,
             show_data=True,
             ve=ve,
+            image=False,
             kwargs_pyvista_bounds={
                 'show_xlabels': False,
                 'show_ylabels': False,
