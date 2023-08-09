@@ -8,7 +8,7 @@ from gempy.core.data.gempy_engine_config import GemPyEngineConfig
 from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model
 from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df
 from gempy_geotop_pilot.utils import plot_geotop
-from .test_read_data import test_read_first_boreholes_file, path_to_south
+from .test_read_data import test_read_first_boreholes_file, path_to_south_boreholes
 
 PLOT_3D = True
 
@@ -74,7 +74,7 @@ def test_gempy_compute_group_2():
 
 # TODO: Decide if we want to move this functions somewhere else
 def _prepare_model():
-    data: pd.DataFrame = read_all_boreholes_data_to_df(path_to_south)
+    data: pd.DataFrame = read_all_boreholes_data_to_df(path_to_south_boreholes)
     geo_model: gp.data.GeoModel = initialize_geomodel(data)
     return geo_model
 
