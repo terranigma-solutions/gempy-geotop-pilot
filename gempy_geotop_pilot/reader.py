@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 
 from subsurface.reader.profiles.profiles_core import create_mesh_from_trace
+import subsurface
 
 
 def read_all_boreholes_data_to_df(path: str) -> pd.DataFrame:
@@ -29,34 +30,42 @@ def read_all_boreholes_data_to_df(path: str) -> pd.DataFrame:
     return data
 
 
-def read_all_fault_data_to_mesh(path: str) -> (np.ndarray, np.ndarray):
+def read_all_fault_data_to_mesh(path: str) -> list[subsurface.UnstructuredData]:
     import shapefile
 
     files = os.listdir(path)
     shp_files = [f for f in files if f.endswith('.shp')]
 
     if len(shp_files) > 0:
-        sf = shapefile.Reader(os.path.join(path, shp_files[0]))  # TODO: generalize to all files
+        all_faults = []
+        sf = shapefile.Reader(os.path.join(path, shp_files[0]))  # ! It seems reading one file is enough for whatever mysterious reason
+        for shape in sf.shapes():
+            print(shape)
+            # Get the first shape (geometry)
+            line_string = shape.points
 
-        # Get the first shape (geometry)
-        first_shape = sf.shape(0)
-        line_string = first_shape.points
+            # Assuming 'zmax' is the second field and 'zmin' is the third
+            zmax = 100  # ! This has to come from the extent
+            zmin = -500
 
-        # Assuming 'zmax' is the second field and 'zmin' is the third
-        zmax = 100  # * This has to come from the extent
-        zmin = -500
+            # Get the first record (attributes)
+            first_record = sf.record(0)  # * Records are useful to define the fault network
 
-        # Get the first record (attributes)
-        first_record = sf.record(0)  # * Records are useful to define the fault network
+            ver, sim = create_mesh_from_trace(
+                linestring=line_string,
+                zmax=zmax,
+                zmin=zmin,
+            )
 
-        ver, sim = create_mesh_from_trace(
-            linestring=line_string,
-            zmax=zmax,
-            zmin=zmin,
-        )
-        return ver, sim
+            unstruct = subsurface.UnstructuredData.from_array(
+                vertex=ver,
+                cells=sim
+            )
+
+            all_faults.append(unstruct)
+
+        return all_faults
 
     else:
         print("No shp files found in the directory.")
         return None
-

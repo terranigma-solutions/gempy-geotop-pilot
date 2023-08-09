@@ -52,15 +52,8 @@ def test_plot_data_and_fault_data_in_same_plot():
     geo_model: gp.data.GeoModel = initialize_geomodel(data)
     setup_south_model(geo_model, slice(None))
 
-    ver, sim = read_all_fault_data_to_mesh(path_to_faults)
-    unstruct = subsurface.UnstructuredData.from_array(
-        vertex=ver,
-        cells=sim
-    )
+    all_unstruct: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(path_to_faults)
 
-    trisurf = subsurface.TriSurf(unstruct)
-    vista_mesh: "pyvista.PolyData" = subsurface.visualization.to_pyvista_mesh(trisurf)
-    
     gempy_plot3d = gpv.plot_3d(
         model=geo_model,
         show_data=True,
@@ -76,7 +69,10 @@ def test_plot_data_and_fault_data_in_same_plot():
         show=False
     )
     
-    
-    gempy_plot3d.p.add_mesh(vista_mesh)
+    for unstruct in all_unstruct:
+        trisurf = subsurface.TriSurf(unstruct)
+        vista_mesh: "pyvista.PolyData" = subsurface.visualization.to_pyvista_mesh(trisurf)
+        gempy_plot3d.p.add_mesh(vista_mesh)
+        
     gempy_plot3d.p.show()
     
