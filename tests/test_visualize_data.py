@@ -2,7 +2,7 @@
 from dotenv import dotenv_values
 
 from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model
-from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh
+from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh, DataSets, read_and_plot_faults
 from gempy_geotop_pilot.utils import plot_geotop
 from .test_basic_interpolation import setup_AP_geomodel
 
@@ -24,10 +24,10 @@ def test_plot_input_AP_only():
 
 
 def test_plot_input_all():
-    data: pd.DataFrame = read_all_boreholes_data_to_df(path)
+    data: pd.DataFrame = read_all_boreholes_data_to_df(path, dataset=DataSets.MID)
     geo_model: gp.data.GeoModel = initialize_geomodel(data)
     setup_south_model(geo_model, slice(None))
-    plot_geotop(geo_model)
+    plot_geotop(geo_model, ve=100)
 
 
 def test_plot_fault_mesh():
@@ -52,8 +52,6 @@ def test_plot_data_and_fault_data_in_same_plot():
     geo_model: gp.data.GeoModel = initialize_geomodel(data)
     setup_south_model(geo_model, slice(None))
 
-    all_unstruct: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(path_to_faults)
-
     gempy_plot3d = gpv.plot_3d(
         model=geo_model,
         show_data=True,
@@ -68,11 +66,8 @@ def test_plot_data_and_fault_data_in_same_plot():
         kwargs_plot_data={'arrow_size': 100},
         show=False
     )
-    
-    for unstruct in all_unstruct:
-        trisurf = subsurface.TriSurf(unstruct)
-        vista_mesh: "pyvista.PolyData" = subsurface.visualization.to_pyvista_mesh(trisurf)
-        gempy_plot3d.p.add_mesh(vista_mesh)
-        
-    gempy_plot3d.p.show()
-    
+
+    read_and_plot_faults(gempy_plot3d)
+
+
+

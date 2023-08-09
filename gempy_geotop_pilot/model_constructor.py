@@ -7,7 +7,8 @@ def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
     extent_from_data_raw: np.ndarray = [
         data['X'].min(), data['X'].max(),
         data['Y'].min(), data['Y'].max(),
-        data["BOTTOM"].min(), data["BOTTOM"].max()
+        # data["BOTTOM"].min(), data["BOTTOM"].max()
+        -500, data["BOTTOM"].max()
     ]
     print(extent_from_data_raw)
     # * Create surface points table
@@ -17,20 +18,20 @@ def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
         z=data['BOTTOM'].values,
         names=data['surface'].values,
         # nugget=10.01,
-        nugget = 00.01
+        nugget=00.01
     )
-   
+
     structural_frame = gp.data.StructuralFrame.from_data_tables(
         surface_points=surface_points,
         orientations=gp.data.OrientationsTable(
             data=np.zeros(0, dtype=gp.data.OrientationsTable.dt)
         )
     )
-    
+
     geo_model = gp.create_geomodel(
         project_name='Model1',
         extent=extent_from_data_raw,
-        number_octree_levels=5,
+        number_octree_levels=6,
         structural_frame=structural_frame
     )
     return geo_model
@@ -48,14 +49,14 @@ VE RU TO DO LA HT HO MT GU VA AK
 """
 
 stratigraphy_pile = {
-    "1": "HL",
-    "1.5": ("BX", "KR", "BE", "KW", "WB", "EE", "KROE"),
-    "2": ("DR", "DT", "DN", "URTY", "PE", "UR", "ST", "AP", "SY", "PZWA"),
-    "3": "MS",
-    "4": "KI",
-    "5": "OO",
-    "6": ("IE", "BR"),
-    "7": ("VE", "RU", "TO", "DO", "LA", "HT", "HO", "MT", "GU", "VA", "AK")
+    "1"  : "HL",
+    "1.5": ("BX"),  # * BX - BE there is unconformity
+    "1.6": ("KR", "BE", "KW", "WB", "EE", "KROE"),
+    "2"  : ("DR", "DT", "DN", "URTY", "PE", "UR", "ST", "AP", "SY", "PZWA"),  # * ST, SY, PXWA - Are Conformable
+    "3"  : "MS",  # * MS - KI there is unconformity
+    "4"  : ("KI", "OO"),  # * KI - OO are comformable
+    "6"  : ("IE", "BR"),
+    "7"  : ("VE", "RU", "TO", "DO", "LA", "HT", "HO", "MT", "GU", "VA", "AK")  # * I have no idea about these
 }
 
 elements_colors = {
