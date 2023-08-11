@@ -67,7 +67,6 @@ def test_gempy_compute_group_2():
     gp.compute_model(
         gempy_model=geo_model,
         engine_config=GemPyEngineConfig(
-            pykeops_enabled=True,
             use_gpu=True
         )
     )
