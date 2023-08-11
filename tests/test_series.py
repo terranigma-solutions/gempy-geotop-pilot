@@ -22,11 +22,10 @@ def test_gempy_compute_group_1():
     )
 
     _create_default_orientation(
-        extent=geo_model.grid.regular_grid.extent, 
+        extent=geo_model.grid.regular_grid.extent,
         geo_model=geo_model
     )
 
-    
     kernel_options = geo_model.interpolation_options.kernel_options
     kernel_options.kernel_solver = Solvers.DEFAULT
     kernel_options.compute_condition_number = True
@@ -40,15 +39,14 @@ def test_gempy_compute_group_1():
 
 def test_gempy_compute_group_2():
     # * This is 11k points
-    
-    
+
     geo_model = _prepare_model()
-    
+
     setup_south_model(
         geo_model=geo_model,
         group_slicer=slice(1, 7)
     )
-    
+
     _create_default_orientation(
         extent=geo_model.grid.regular_grid.extent,
         geo_model=geo_model
@@ -62,13 +60,22 @@ def test_gempy_compute_group_2():
 
     kernel_options.range = 2  # TODO: Explain this parameter properly
     geo_model.transform.scale[2] /= 6.5  # * This is a 6 factor on top of the unit cube
-    
+
     # TODO: There is clearly a fault in this group
     # TODO: [ ] Import fault data. This should improve the condition number
+
+    gp.compute_model(
+        gempy_model=geo_model,
+        engine_config=GemPyEngineConfig(
+            pykeops_enabled=True,
+            use_gpu=True
+        )
+    )
     
-    gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=True))
-    plot_3d = plot_geotop(geo_model, 100, image_3d=False, show=False)
-    read_and_plot_faults(plot_3d)
+    image_3d = True
+    plot_3d = plot_geotop(geo_model, 100, image_3d=image_3d, show=False)
+    if image_3d is False:
+        read_and_plot_faults(plot_3d)
 
 
 # TODO: Decide if we want to move this functions somewhere else
@@ -81,7 +88,6 @@ def _prepare_model():
 def _create_default_orientation(extent, geo_model):
     """All groups need at least one orientation"""
     for group in geo_model.structural_frame.structural_groups:
-        
         elements_to_add_orientation = group.elements[0]
         orientations = gp.data.OrientationsTable.from_arrays(
             x=np.array([extent[0] + (extent[1] - extent[0]) / 2]),

@@ -7,8 +7,7 @@ def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
     extent_from_data_raw: np.ndarray = [
         data['X'].min(), data['X'].max(),
         data['Y'].min(), data['Y'].max(),
-        # data["BOTTOM"].min(), data["BOTTOM"].max()
-        -500, data["BOTTOM"].max()
+        data["BOTTOM"].min(), data["BOTTOM"].max()
     ]
     print(extent_from_data_raw)
     # * Create surface points table
@@ -120,7 +119,7 @@ def setup_south_model(geo_model: gp.data.GeoModel, group_slicer: slice):
     extent = [
         xyz[:, 0].min(), xyz[:, 0].max(),
         xyz[:, 1].min(), xyz[:, 1].max(),
-        xyz[:, 2].min(), xyz[:, 2].max()
+        -500, xyz[:, 2].max()
     ]
 
     geo_model.grid.regular_grid.set_regular_grid(
