@@ -71,7 +71,7 @@ def test_gempy_compute_group_2():
         )
     )
     
-    image_3d = True
+    image_3d = False
     plot_3d = plot_geotop(geo_model, 100, image_3d=image_3d, show=False)
     if image_3d is False:
         read_and_plot_faults(plot_3d)
