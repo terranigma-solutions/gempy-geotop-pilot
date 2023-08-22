@@ -20,8 +20,8 @@ def test_gempy_compute_group_1():
 
     setup_south_model(
         geo_model=geo_model,
-        group_slicer=slice(0, 4),
-        max_depth= -200
+        group_slicer=slice(8, 9),
+        max_depth= -500
     )
 
     _create_default_orientation(
@@ -36,7 +36,7 @@ def test_gempy_compute_group_1():
     kernel_options.range = 2  # TODO: Explain this parameter properly
     geo_model.transform.scale[2] /= 6.5  # * This is a 6 factor on top of the unit cube
 
-    print(geo_model.structural_frame)
+   
     gp.compute_model(geo_model, engine_config=GemPyEngineConfig(use_gpu=True))
     
     plot_geotop(geo_model, ve=100, image_3d=False)
@@ -51,7 +51,7 @@ def test_gempy_compute_group_2():
 
     setup_south_model(
         geo_model=geo_model,
-        group_slicer=slice(1, 7)
+        group_slicer=slice(0, 9)
     )
 
     _create_default_orientation(
@@ -79,8 +79,8 @@ def test_gempy_compute_group_2():
     )
     
     image_3d = False
-    plot_3d = plot_geotop(geo_model, 100, image_3d=image_3d, show=False)
-    if image_3d is False and False:
+    plot_3d = plot_geotop(geo_model, 100, image_3d=image_3d, show=True)
+    if image_3d is False or True:
         read_and_plot_faults(plot_3d)
 
 
@@ -95,6 +95,7 @@ def _create_default_orientation(extent, geo_model):
             G_x=np.array([0]),
             G_y=np.array([0]),
             G_z=np.array([1]),
+            nugget=10,
             names=np.array([elements_to_add_orientation.name])
         )
         elements_to_add_orientation.orientations = orientations

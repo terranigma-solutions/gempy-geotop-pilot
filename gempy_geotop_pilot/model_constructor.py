@@ -22,7 +22,8 @@ def initialize_geomodel(data: pd.DataFrame, global_nugget=0.01) -> gp.data.GeoMo
     structural_frame = gp.data.StructuralFrame.from_data_tables(
         surface_points=surface_points,
         orientations=gp.data.OrientationsTable(
-            data=np.zeros(0, dtype=gp.data.OrientationsTable.dt)
+            data=np.zeros(0, dtype=gp.data.OrientationsTable.dt),
+            
         )
     )
 
@@ -50,9 +51,12 @@ stratigraphy_pile = {
     "1"  : "HL",
     "1.5": ("BX"),  # * BX - BE there is unconformity
     "1.6": ("KR", "BE", "KW", "WB", "EE", "KROE"),
-    "2"  : ("DR", "DT", "DN", "URTY", "PE", "UR", "ST", "AP", "SY", "PZWA"),  # * ST, SY, PXWA - Are Conformable
+    "2"  : ("DR", "DT", "DN", "URTY", "PE", "UR", "ST", "AP"),  # * ST, SY, PXWA - Are Conformable
+    "2.3": ("SY"),
+    "2.6": ("PZWA"),
     "3"  : "MS",  # * MS - KI there is unconformity
-    "4"  : ("KI", "OO"),  # * KI - OO are comformable
+    "4"  : ("KI"),  # * KI - OO are comformable
+    "5"  : ("OO"),
     "6"  : ("IE", "BR"),
     "7"  : ("VE", "RU", "TO", "DO", "LA", "HT", "HO", "MT", "GU", "VA", "AK")  # * I have no idea about these
 }
@@ -125,11 +129,14 @@ def setup_south_model(geo_model: gp.data.GeoModel, group_slicer: slice, max_dept
         extent=extent,
         resolution=np.array([50, 50, 50])
     )
-    
-    if False: # TODO: Add exact cross section to compare the Geotop results
+
+    if True:  # TODO: Add exact cross section to compare the Geotop results
         gp.set_section_grid(
             grid=geo_model.grid,
             section_dict={
-                 'section1': ([0, 0], [1000, 1000], [100, 80]),
+                'section1': ([141508, 394517],
+                             [211944, 392359],
+                             [100, 100])
+                ,
             }
         )
