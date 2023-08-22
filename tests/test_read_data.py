@@ -4,11 +4,12 @@ import numpy as np
 import pandas as pd
 from dotenv import load_dotenv, dotenv_values
 from subsurface.reader.profiles.profiles_core import create_mesh_from_trace
+import subsurface
 
+import gempy as gp
 from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model
-from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df
-from gempy_geotop_pilot.utils import plot_geotop
-
+from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh, add_raw_faults_to_mesh
+from gempy_geotop_pilot.utils import plot_geotop, principal_orientations
 
 config = dotenv_values()
 path_to_south_boreholes = config.get('BOREHOLES_SOUTH_FOLDER')
@@ -69,6 +70,15 @@ def test_read_first_fault_file() -> (np.ndarray, np.ndarray):
         return None
     
     
+def test_convert_unstructured_data_to_gempy_fault():
+    all_unstruct: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(path_to_south_faults)
+    
+    first_fault = all_unstruct[0]
+    orientation_location = np.mean(first_fault.vertex, axis=0)
+    
+    
+    pass
+
 
 def test_read_all_boreholes_data_to_df():
     data_south = read_all_boreholes_data_to_df(path_to_south_boreholes)
@@ -76,12 +86,58 @@ def test_read_all_boreholes_data_to_df():
 
 def test_config_south():
     data_south = read_all_boreholes_data_to_df(path_to_south_boreholes)
-    geo_model =  initialize_geomodel(data_south)
+    geo_model = initialize_geomodel(data_south)
     setup_south_model(
         geo_model=geo_model,
         group_slicer=slice(0, 1)
     )
     print(geo_model.structural_frame)
-    
-    plot_geotop(geo_model)
+
+    all_unstruct: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(path_to_south_faults)
+
+    for e, struct in enumerate(all_unstruct):
+        add_fault_from_unstructured_data(
+            unstruct=struct,
+            geo_model=geo_model,
+            name=f"fault{e}"
+        )
+
+    plot_3d = plot_geotop(geo_model, image_3d=False, show=False)
+    add_raw_faults_to_mesh(all_unstruct, plot_3d)
+    plot_3d.p.show()
+
+
+def add_fault_from_unstructured_data(unstruct: subsurface.UnstructuredData, geo_model: gp.data.GeoModel, name: str):
+    group_name = name[0].upper() + name[1:]
+
+    vertex = unstruct.vertex
+    orientation_location = np.mean(vertex, axis=0)
+    orientation_gradient = principal_orientations(vertex)[:, 2]
+    surface_points = gp.data.SurfacePointsTable.from_arrays(
+        x=np.array([orientation_location[0] + 1, orientation_location[0] - 1]),
+        y=np.array([orientation_location[1] + 1, orientation_location[1] - 1]),
+        z=np.array([orientation_location[2] + 1, orientation_location[2] - 1]),
+        names=np.array([name, name])
+    )
+    orientations = gp.data.OrientationsTable.from_arrays(
+        x=np.array([orientation_location[0]]),
+        y=np.array([orientation_location[1]]),
+        z=np.array([orientation_location[2]]),
+        G_x=np.array([orientation_gradient[0]]),
+        G_y=np.array([orientation_gradient[1]]),
+        G_z=np.array([orientation_gradient[2]]),
+        names=np.array([name])
+    )
+    strurctural_element_fault = gp.data.StructuralElement(
+        name=name,
+        surface_points=surface_points,
+        orientations=orientations,
+        color="#000000"
+    )
+    structural_group_fault = gp.data.StructuralGroup(
+        name=group_name,
+        elements=[strurctural_element_fault],
+        structural_relation=gp.data.StackRelationType.FAULT
+    )
+    geo_model.structural_frame.insert_group(0, structural_group_fault)
     

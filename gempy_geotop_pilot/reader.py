@@ -56,10 +56,12 @@ def read_all_fault_data_to_mesh(path: str) -> list[subsurface.UnstructuredData]:
 
     files = os.listdir(path)
     shp_files = [f for f in files if f.endswith('.shp')]
+    # Just pick files that start with "BR"
+    shp_files = [f for f in files if f.startswith('BR')]
 
     if len(shp_files) > 0:
         all_faults = []
-        sf = shapefile.Reader(os.path.join(path, shp_files[0]))  # ! It seems reading one file is enough for whatever mysterious reason
+        sf = shapefile.Reader(os.path.join(path, shp_files[0]))  # ! Each file contains all the faults that offset a specific unit 
         for shape in sf.shapes():
             print(shape)
             # Get the first shape (geometry)
@@ -94,9 +96,13 @@ def read_all_fault_data_to_mesh(path: str) -> list[subsurface.UnstructuredData]:
 
 def read_and_plot_faults(gempy_plot3d):
     all_unstruct: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(path_to_faults)
+    add_raw_faults_to_mesh(all_unstruct, gempy_plot3d)
+        
+    gempy_plot3d.p.show()
+
+
+def add_raw_faults_to_mesh(all_unstruct, gempy_plot3d):
     for unstruct in all_unstruct:
         trisurf = subsurface.TriSurf(unstruct)
         vista_mesh: "pyvista.PolyData" = subsurface.visualization.to_pyvista_mesh(trisurf)
         gempy_plot3d.p.add_mesh(vista_mesh)
-        
-    gempy_plot3d.p.show()
