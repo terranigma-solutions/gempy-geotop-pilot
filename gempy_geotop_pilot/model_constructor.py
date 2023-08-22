@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 
-def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
+def initialize_geomodel(data: pd.DataFrame, global_nugget=0.01) -> gp.data.GeoModel:
     extent_from_data_raw: np.ndarray = [
         data['X'].min(), data['X'].max(),
         data['Y'].min(), data['Y'].max(),
@@ -16,8 +16,7 @@ def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
         y=data['Y'].values,
         z=data['BOTTOM'].values,
         names=data['surface'].values,
-        # nugget=10.01,
-        nugget=00.01
+        nugget=global_nugget
     )
 
     structural_frame = gp.data.StructuralFrame.from_data_tables(
@@ -30,7 +29,7 @@ def initialize_geomodel(data: pd.DataFrame) -> gp.data.GeoModel:
     geo_model = gp.create_geomodel(
         project_name='Model1',
         extent=extent_from_data_raw,
-        number_octree_levels=6,
+        number_octree_levels=5,
         structural_frame=structural_frame
     )
     return geo_model
@@ -102,7 +101,7 @@ def color_elements(elements: list[gp.data.StructuralElement]):
         element.color = name_
 
 
-def setup_south_model(geo_model: gp.data.GeoModel, group_slicer: slice):
+def setup_south_model(geo_model: gp.data.GeoModel, group_slicer: slice, max_depth: float = -500.0):
     # TODO: [x] Create possible stratigraphic groups
     # TODO: [x] Paint each group with the relevant colors
 
@@ -119,10 +118,18 @@ def setup_south_model(geo_model: gp.data.GeoModel, group_slicer: slice):
     extent = [
         xyz[:, 0].min(), xyz[:, 0].max(),
         xyz[:, 1].min(), xyz[:, 1].max(),
-        -500, xyz[:, 2].max()
+        max_depth, xyz[:, 2].max()
     ]
 
     geo_model.grid.regular_grid.set_regular_grid(
         extent=extent,
         resolution=np.array([50, 50, 50])
     )
+    
+    if False: # TODO: Add exact cross section to compare the Geotop results
+        gp.set_section_grid(
+            grid=geo_model.grid,
+            section_dict={
+                 'section1': ([0, 0], [1000, 1000], [100, 80]),
+            }
+        )

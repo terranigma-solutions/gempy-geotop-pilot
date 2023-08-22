@@ -28,7 +28,7 @@ def test_gempy_compute_AP_surface():
     kernel_options.range = 2  # TODO: Explain this parameter properly
     geo_model.transform.scale[2] /= 6.5  # * This is a 6 factor on top of the unit cube
 
-    gp.compute_model(geo_model, engine_config=GemPyEngineConfig(pykeops_enabled=True))
+    gp.compute_model(geo_model, engine_config=GemPyEngineConfig())
 
     gpv.plot_2d(
         geo_model,
