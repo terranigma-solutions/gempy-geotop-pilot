@@ -94,16 +94,17 @@ def test_config_south():
     print(geo_model.structural_frame)
 
     all_unstruct: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(path_to_south_faults)
+    subset = all_unstruct[10:13]
 
-    for e, struct in enumerate(all_unstruct):
+    for e, struct in enumerate(subset):
         add_fault_from_unstructured_data(
             unstruct=struct,
             geo_model=geo_model,
             name=f"fault{e}"
         )
 
-    plot_3d = plot_geotop(geo_model, image_3d=False, show=False)
-    add_raw_faults_to_mesh(all_unstruct, plot_3d)
+    plot_3d = plot_geotop(geo_model, ve=1, image_3d=False, show=False)
+    add_raw_faults_to_mesh(subset, plot_3d)
     plot_3d.p.show()
 
 
@@ -112,7 +113,12 @@ def add_fault_from_unstructured_data(unstruct: subsurface.UnstructuredData, geo_
 
     vertex = unstruct.vertex
     orientation_location = np.mean(vertex, axis=0)
-    orientation_gradient = principal_orientations(vertex)[:, 2]
+    principal_orientations_ = principal_orientations(vertex)
+    orientation_gradient = principal_orientations_[:, 2]
+    # if orientation_gradient[2] is close to 1 then use principal_orientations_[:, 1]
+    if np.isclose(orientation_gradient[2], 1):
+        orientation_gradient = principal_orientations_[:, 1]
+    
     surface_points = gp.data.SurfacePointsTable.from_arrays(
         x=np.array([orientation_location[0] + 1, orientation_location[0] - 1]),
         y=np.array([orientation_location[1] + 1, orientation_location[1] - 1]),
@@ -137,7 +143,8 @@ def add_fault_from_unstructured_data(unstruct: subsurface.UnstructuredData, geo_
     structural_group_fault = gp.data.StructuralGroup(
         name=group_name,
         elements=[strurctural_element_fault],
-        structural_relation=gp.data.StackRelationType.FAULT
+        structural_relation=gp.data.StackRelationType.FAULT,
+        fault_relations=gp.data.FaultsRelationSpecialCase.OFFSET_ALL,
     )
     geo_model.structural_frame.insert_group(0, structural_group_fault)
     

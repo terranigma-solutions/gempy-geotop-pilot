@@ -15,6 +15,18 @@ def plot_geotop(geo_model, ve=1, image_3d=True, show=True):
                 projection_distance=100
                 )
     
+    if True:
+        series_to_plot = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        gpv.plot_2d(geo_model,
+                    section_names=['section1']*len(series_to_plot),
+                    show_data=True,
+                    show_boundaries=False,
+                    show_scalar=True,
+                    series_n=series_to_plot,
+                    ve=ve,
+                    projection_distance=100
+                    )
+
     gempy_plot3d = gpv.plot_3d(
         model=geo_model,
         show=show,
@@ -28,7 +40,7 @@ def plot_geotop(geo_model, ve=1, image_3d=True, show=True):
             'show_zlabels': False,
         },
         kwargs_plot_data={'arrow_size': 100},
-        kwargs_plot_structured_grid={'opacity': .8}
+        kwargs_plot_structured_grid={'opacity': .2}
     )
     
     return gempy_plot3d

@@ -1,6 +1,7 @@
 ﻿import pandas as pd
 from dotenv import dotenv_values
 
+import gempy_viewer
 from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model
 from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh, DataSets, read_and_plot_faults
 from gempy_geotop_pilot.utils import plot_geotop
@@ -52,6 +53,7 @@ def test_plot_data_and_fault_data_in_same_plot():
     geo_model: gp.data.GeoModel = initialize_geomodel(data)
     setup_south_model(geo_model, slice(None))
 
+    gempy_viewer.plot_section_traces(geo_model, section_names=['section1'])
     gempy_plot3d = gpv.plot_3d(
         model=geo_model,
         show_data=True,
