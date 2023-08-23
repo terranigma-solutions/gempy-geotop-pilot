@@ -92,6 +92,7 @@ def test_gempy_compute_group_3_with_faults():
     geo_model = model
 
     all_units = slice(0, 11)
+    BX = slice(1,3)
     BE = slice(2,3)
     ST = slice(3,4)
     setup_south_model(
@@ -111,7 +112,7 @@ def test_gempy_compute_group_3_with_faults():
     kernel_options.compute_condition_number = True
 
     kernel_options.range = 2  # TODO: Explain this parameter properly
-    geo_model.transform.scale[2] /= 6.5  # * This is a 6 factor on top of the unit cube
+    geo_model.transform.scale[2] /= 3.5  # * This is a 6 factor on top of the unit cube
 
     # TODO: There is clearly a fault in this group
     # TODO: [ ] Import fault data. This should improve the condition number
