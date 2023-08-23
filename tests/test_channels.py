@@ -4,6 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
 
+from gempy_geotop_pilot.channels import read_ascii, extract_surface_points_and_orientations_from
+import gempy as gp
+import gempy_viewer as gpv
+
 config = dotenv_values()
 path_to_north_channels = config.get('NORTH_CHANNELS_ASCII')
 
@@ -47,6 +51,50 @@ def test_read_first_channel_file():
     p.show()
     
 
+def test_interpolate_channel_1():
+    header, depth_values = read_ascii(path_to_north_channels)
+    depth_array = np.array(depth_values)
+    ve = 10
+    depth_array *= ve
+    
+    surface_points_xyz, orientations_gxyz = extract_surface_points_and_orientations_from(depth_array, header)
+    
+    surface_points = gp.data.SurfacePointsTable.from_arrays(
+        x=surface_points_xyz[:, 0],
+        y=surface_points_xyz[:, 1],
+        z=surface_points_xyz[:, 2],
+        names="channel_1"
+    )
+    
+    orientations = gp.data.OrientationsTable.from_arrays(
+        x=surface_points_xyz[:, 0],
+        y=surface_points_xyz[:, 1],
+        z=surface_points_xyz[:, 2],
+        G_x=orientations_gxyz[:, 0],
+        G_y=orientations_gxyz[:, 1],
+        G_z=orientations_gxyz[:, 2],
+        names="channel_1"
+    )
+    
+    structural_frame = gp.data.StructuralFrame.initialize_default_structure()
+    
+    structural_frame.structural_elements[0].surface_points = surface_points
+    structural_frame.structural_elements[0].orientations = orientations
+    
+
+    geo_model: gp.data.GeoModel = gp.create_geomodel(
+        project_name='channel_1',
+        extent=[header['xllcorner'],
+                header['xllcorner'] + header['cellsize'] * header['ncols'],
+                header['yllcorner'],
+                header['yllcorner'] + header['cellsize'] * header['nrows'],
+                0, 1000],
+        number_octree_levels=4,
+        structural_frame=structural_frame
+    )
+    
+    gpv.plot_3d(geo_model)
+
 
 def plot_channels_3d(depth_array, header, show=True):
     # Compute the XY meshgrid for the surface plot
@@ -72,21 +120,3 @@ def plot_channels_2d(depth_array):
     plt.show()
 
 
-def read_ascii(file_name):
-    with open(file_name, 'r') as file:
-        data = file.readlines()
-
-    header = {}
-    header['ncols'] = int(data[0].split()[1])
-    header['nrows'] = int(data[1].split()[1])
-    header['xllcorner'] = float(data[2].split()[1])
-    header['yllcorner'] = float(data[3].split()[1])
-    header['cellsize'] = int(data[4].split()[1])
-    header['NODATA_value'] = float(data[5].split()[1])
-
-    # Extract depth values and convert them to float
-    depth_values = []
-    for row in data[6:]:
-        depth_values.append([float(val.replace(',', '.')) for val in row.strip().split()])
-
-    return header, depth_values
