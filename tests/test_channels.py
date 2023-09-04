@@ -4,6 +4,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pyvista as pv
 
+from gempy_engine.core.data.kernel_classes.solvers import Solvers
+from gempy.core.data import GemPyEngineConfig
 from gempy_geotop_pilot.channels import read_ascii, extract_surface_points_and_orientations_from
 import gempy as gp
 import gempy_viewer as gpv
@@ -54,7 +56,7 @@ def test_read_first_channel_file():
 def test_interpolate_channel_1():
     header, depth_values = read_ascii(path_to_north_channels)
     depth_array = np.array(depth_values)
-    ve = 10
+    ve = 100
     depth_array *= ve
     
     surface_points_xyz, orientations_gxyz = extract_surface_points_and_orientations_from(depth_array, header)
@@ -73,6 +75,7 @@ def test_interpolate_channel_1():
         G_x=orientations_gxyz[:, 0],
         G_y=orientations_gxyz[:, 1],
         G_z=orientations_gxyz[:, 2],
+        nugget=10000,
         names="channel_1"
     )
     
@@ -88,12 +91,29 @@ def test_interpolate_channel_1():
                 header['xllcorner'] + header['cellsize'] * header['ncols'],
                 header['yllcorner'],
                 header['yllcorner'] + header['cellsize'] * header['nrows'],
-                0, 1000],
+                -300 *ve, 0],
         number_octree_levels=4,
         structural_frame=structural_frame
     )
-    
+    if COMPUTE_MODEL:=True:
+        geo_model.update_transform(gp.data.GlobalAnisotropy.NONE)
+        kernel_options = geo_model.interpolation_options.kernel_options
+        kernel_options.kernel_solver = Solvers.SCIPY_CG
+        kernel_options.compute_condition_number = True
+
+        kernel_options.range = 0.02  # TODO: Explain this parameter properly
+        # geo_model.transform.scale[2] /= 3.5  
+        geo_model.transform.scale[1] /= 30  
+        
+        gp.compute_model(
+            gempy_model=geo_model,
+            engine_config=GemPyEngineConfig(
+                use_gpu=True
+            )
+        )
+
     gpv.plot_3d(geo_model)
+
 
 
 def plot_channels_3d(depth_array, header, show=True):
