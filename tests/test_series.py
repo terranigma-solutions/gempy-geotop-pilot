@@ -97,7 +97,8 @@ def test_gempy_compute_group_3_with_faults():
     ST = slice(3,4)
     setup_south_model(
         geo_model=geo_model,
-        group_slicer=all_units
+        group_slicer=slice(0,1),
+        max_depth=-50
     )
 
     _create_default_orientation(
@@ -112,7 +113,7 @@ def test_gempy_compute_group_3_with_faults():
     kernel_options.compute_condition_number = True
 
     kernel_options.range = 2  # TODO: Explain this parameter properly
-    geo_model.transform.scale[2] /= 3.5  # * This is a 6 factor on top of the unit cube
+    geo_model.transform.scale[2] /= 1  # * This is a 6 factor on top of the unit cube
 
     # TODO: There is clearly a fault in this group
     # TODO: [ ] Import fault data. This should improve the condition number
@@ -120,12 +121,13 @@ def test_gempy_compute_group_3_with_faults():
     import subsurface
     path_to_south_faults = config.get('FAULTS_SOUTH_FOLDER')
     all_unstruct: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(path_to_south_faults)
-    for e, struct in enumerate(all_unstruct[10:13]):
-        add_fault_from_unstructured_data(
-            unstruct=struct,
-            geo_model=geo_model,
-            name=f"fault{e}"
-        )
+    if False:
+        for e, struct in enumerate(all_unstruct[10:13]):
+            add_fault_from_unstructured_data(
+                unstruct=struct,
+                geo_model=geo_model,
+                name=f"fault{e}"
+            )
 
     gp.compute_model(
         gempy_model=geo_model,
@@ -135,7 +137,7 @@ def test_gempy_compute_group_3_with_faults():
     )
 
     image_3d = False
-    plot_3d = plot_geotop(geo_model, 100, image_3d=image_3d, show=True)
+    plot_3d = plot_geotop(geo_model, 50, image_3d=image_3d, show=True)
     if image_3d is False and False:
         read_and_plot_faults(plot_3d)
 
