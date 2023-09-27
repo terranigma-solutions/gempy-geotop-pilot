@@ -94,7 +94,9 @@ def test_config_south():
     print(geo_model.structural_frame)
 
     all_unstruct: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(path_to_south_faults)
-    subset = all_unstruct[10:13]
+    
+    subset = all_unstruct[10:13]  # * 3 Faults at the west
+    subset = all_unstruct[:]  # * All faults
 
     for e, struct in enumerate(subset):
         add_fault_from_unstructured_data(
