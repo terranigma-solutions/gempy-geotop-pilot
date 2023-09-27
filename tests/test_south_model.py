@@ -30,8 +30,8 @@ def _setup_south_model_base(group_slicer):
     kernel_options = geo_model.interpolation_options.kernel_options
     kernel_options.kernel_solver = Solvers.SCIPY_CG
     kernel_options.compute_condition_number = True
-    kernel_options.range = 2  # TODO: Explain this parameter properly
-    geo_model.transform.scale[2] /= 6.5  # * This is a 6 factor on top of the unit cube
+    kernel_options.range = 0.5  # TODO: Explain this parameter properly
+    geo_model.transform.scale[2] /= 2  # * This is a 6 factor on top of the unit cube
     return geo_model
 
 
@@ -63,9 +63,7 @@ def test_south_model_with_faults():
     all_faults_unstructs: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(
         path=config.get('FAULTS_SOUTH_FOLDER')
     )
-    # faults_slicer = all_faults_unstructs[10:13]
-
-    faults_slicer = all_faults_unstructs
+    faults_slicer = all_faults_unstructs[10:13]
     for e, struct in enumerate(faults_slicer):
         add_fault_from_unstructured_data(
             unstruct=struct,
