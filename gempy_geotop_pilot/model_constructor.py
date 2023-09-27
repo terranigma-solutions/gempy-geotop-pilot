@@ -134,9 +134,16 @@ def setup_south_model(geo_model: gp.data.GeoModel, group_slicer: slice, max_dept
         gp.set_section_grid(
             grid=geo_model.grid,
             section_dict={
-                'section1': ([141508, 394517],
-                             [211944, 392359],
+                'section1': ([112873, 390934],
+                             [212359, 390346],
                              [100, 100])
                 ,
+                'section2': ([121660, 416391],
+                             [196740, 416618],
+                                [100, 100])
+                ,
+                'section3': ([160560, 414164],
+                             [159917, 370427],
+                                [100, 100])
             }
         )

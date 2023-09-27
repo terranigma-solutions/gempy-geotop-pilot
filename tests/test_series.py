@@ -51,7 +51,7 @@ def test_gempy_compute_group_2():
 
     setup_south_model(
         geo_model=geo_model,
-        group_slicer=slice(0, 9)
+        group_slicer=slice(4, 9)
     )
 
     _create_default_orientation(
@@ -74,11 +74,12 @@ def test_gempy_compute_group_2():
     gp.compute_model(
         gempy_model=geo_model,
         engine_config=GemPyEngineConfig(
-            use_gpu=True
+            use_gpu=True,
+            dtype='float32'
         )
     )
     
-    image_3d = False
+    image_3d = True
     plot_3d = plot_geotop(geo_model, 100, image_3d=image_3d, show=True)
     if image_3d is False or True:
         read_and_plot_faults(plot_3d)

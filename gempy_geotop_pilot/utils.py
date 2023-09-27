@@ -8,15 +8,7 @@ def plot_geotop(geo_model, ve=1, image_3d=True, show=True):
     """Specific function to plot the geotop model."""
     
     gpv.plot_2d(geo_model, 
-                section_names=['section1'],
-                show_data=True,
-                show_boundaries=False,
-                ve=ve,
-                projection_distance=100
-                )
-    
-    gpv.plot_2d(geo_model,
-                direction=['y'],
+                section_names=['section1', 'section2', 'section3'],
                 show_data=True,
                 show_boundaries=False,
                 ve=ve,

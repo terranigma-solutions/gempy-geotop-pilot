@@ -20,6 +20,7 @@ class DataSets(Enum):
     
 def read_all_boreholes_data_to_df(path: str, dataset: DataSets = DataSets.ALL) -> pd.DataFrame:
     """Read all boreholes data from the given path and return a single dataframe"""
+    # TODO: Add the pich out points and auxiliary grid I guess
     files = os.listdir(path)
     csv_files = [f for f in files if f.endswith('.csv')]
 
