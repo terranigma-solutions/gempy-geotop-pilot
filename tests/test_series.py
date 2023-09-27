@@ -1,12 +1,11 @@
-﻿import numpy as np
-import pandas as pd
+﻿import pandas as pd
 
 import gempy as gp
 from gempy_engine.core.data.kernel_classes.solvers import Solvers
 from gempy.core.data.gempy_engine_config import GemPyEngineConfig
 from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model
 from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, DataSets, read_and_plot_faults, read_all_fault_data_to_mesh
-from gempy_geotop_pilot.utils import plot_geotop
+from gempy_geotop_pilot.utils import plot_geotop, _create_default_orientation
 from .test_read_data import path_to_south_boreholes, config, add_fault_from_unstructured_data
 
 PLOT_3D = True
@@ -143,18 +142,3 @@ def test_gempy_compute_group_3_with_faults():
         read_and_plot_faults(plot_3d)
 
 
-def _create_default_orientation(extent, geo_model):
-    """All groups need at least one orientation"""
-    for group in geo_model.structural_frame.structural_groups:
-        elements_to_add_orientation = group.elements[0]
-        orientations = gp.data.OrientationsTable.from_arrays(
-            x=np.array([extent[0] + (extent[1] - extent[0]) / 2]),
-            y=np.array([extent[2] + (extent[3] - extent[2]) / 2]),
-            z=np.array(extent[5] * 2),  # * Move the orientation further to avoid influece
-            G_x=np.array([0]),
-            G_y=np.array([0]),
-            G_z=np.array([1]),
-            nugget=0.01,
-            names=np.array([elements_to_add_orientation.name])
-        )
-        elements_to_add_orientation.orientations = orientations

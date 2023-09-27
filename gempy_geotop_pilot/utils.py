@@ -1,5 +1,6 @@
 ﻿import numpy as np
 
+import gempy as gp
 import gempy_viewer as gpv
 
 
@@ -68,3 +69,20 @@ def principal_orientations(coords):
     sorted_eigenvectors = eigenvectors[:, sorted_indices]
 
     return sorted_eigenvectors
+
+
+def _create_default_orientation(extent, geo_model):
+    """All groups need at least one orientation"""
+    for group in geo_model.structural_frame.structural_groups:
+        elements_to_add_orientation = group.elements[0]
+        orientations = gp.data.OrientationsTable.from_arrays(
+            x=np.array([extent[0] + (extent[1] - extent[0]) / 2]),
+            y=np.array([extent[2] + (extent[3] - extent[2]) / 2]),
+            z=np.array(extent[5] * 2),  # * Move the orientation further to avoid influece
+            G_x=np.array([0]),
+            G_y=np.array([0]),
+            G_z=np.array([1]),
+            nugget=0.01,
+            names=np.array([elements_to_add_orientation.name])
+        )
+        elements_to_add_orientation.orientations = orientations
