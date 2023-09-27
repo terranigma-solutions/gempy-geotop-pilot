@@ -36,7 +36,7 @@ def extract_surface_points_and_orientations_from(depth_array: np.ndarray, header
     triangulated_mesh = mesh.triangulate()
 
     # Decimate the mesh to reduce the number of points
-    decimated_mesh = triangulated_mesh.decimate_pro(0.995)
+    decimated_mesh = triangulated_mesh.decimate_pro(0.999)
 
     # Compute normals
     normals = decimated_mesh.compute_normals(point_normals=False, cell_normals=True, consistent_normals=True)
