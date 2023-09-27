@@ -32,7 +32,7 @@ def plot_geotop(geo_model, ve=1, image_3d=True, show=True):
         model=geo_model,
         show=show,
         show_data=True,
-        show_lith=True,
+        show_lith=False,
         ve=ve,
         image=image_3d,
         kwargs_pyvista_bounds={

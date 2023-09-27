@@ -38,7 +38,7 @@ def _setup_south_model_base(group_slicer):
 def test_south_model_no_faults_only_wells():
     # * This is 11k points
 
-    geo_model = _setup_south_model_base(group_slicer=slice(0, 10))
+    geo_model = _setup_south_model_base(group_slicer=slice(5, 7))
 
     gp.compute_model(
         gempy_model=geo_model,
@@ -48,7 +48,7 @@ def test_south_model_no_faults_only_wells():
         )
     )
 
-    image_3d = True
+    image_3d = False
     plot_3d = plot_geotop(geo_model, 100, image_3d=image_3d, show=True)
     if image_3d is False or True:
         read_and_plot_faults(plot_3d)
@@ -58,12 +58,14 @@ def test_south_model_no_faults_extra_points():
 
 
 def test_south_model_with_faults():
-    geo_model = _setup_south_model_base(group_slicer=slice(5, 10))
+    geo_model = _setup_south_model_base(group_slicer=slice(0, 10))
 
     all_faults_unstructs: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(
         path=config.get('FAULTS_SOUTH_FOLDER')
     )
-    faults_slicer = all_faults_unstructs[10:13]
+    # faults_slicer = all_faults_unstructs[10:13]
+
+    faults_slicer = all_faults_unstructs
     for e, struct in enumerate(faults_slicer):
         add_fault_from_unstructured_data(
             unstruct=struct,
@@ -75,11 +77,11 @@ def test_south_model_with_faults():
         gempy_model=geo_model,
         engine_config=GemPyEngineConfig(
             use_gpu=True,
-            dtype='float32'
+            dtype='float64'
         )
     )
 
-    image_3d = True
+    image_3d = False
     plot_3d = plot_geotop(geo_model, 100, image_3d=image_3d, show=True)
-    if image_3d is False or True:
+    if image_3d is False or False:
         read_and_plot_faults(plot_3d)
