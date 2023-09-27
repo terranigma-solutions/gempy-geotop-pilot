@@ -4,7 +4,7 @@ import numpy as np
 
 
 def initialize_geomodel(data: pd.DataFrame, global_nugget=0.01) -> gp.data.GeoModel:
-    extent_from_data_raw: np.ndarray = [
+    extent_from_data_raw: list = [
         data['X'].min(), data['X'].max(),
         data['Y'].min(), data['Y'].max(),
         data["BOTTOM"].min(), data["BOTTOM"].max()

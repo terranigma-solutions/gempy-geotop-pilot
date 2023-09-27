@@ -51,7 +51,7 @@ def test_gempy_compute_group_2():
 
     setup_south_model(
         geo_model=geo_model,
-        group_slicer=slice(4, 9)
+        group_slicer=slice(0, 10)
     )
 
     _create_default_orientation(
