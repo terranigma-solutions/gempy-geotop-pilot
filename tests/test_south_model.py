@@ -45,13 +45,14 @@ def test_south_model_no_faults_only_wells():
         engine_config=GemPyEngineConfig(
             use_gpu=True,
             dtype='float32'
-        )
+        )   
     )
 
     image_3d = False
     plot_3d = plot_geotop(geo_model, 100, image_3d=image_3d, show=True)
     if image_3d is False or True:
         read_and_plot_faults(plot_3d)
+
 
 def test_south_model_no_faults_extra_points():
     pass
