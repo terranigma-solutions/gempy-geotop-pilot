@@ -93,7 +93,7 @@ def test_interpolate_channel_orientations_from_triangles():
                 header['yllcorner'] + header['cellsize'] * header['nrows'],
                 -300 *ve, 0],
         
-        number_octree_levels=4,
+        refinement=4,
         structural_frame=structural_frame
     )
     if COMPUTE_MODEL:=True:
@@ -168,7 +168,7 @@ def test_interpolate_channel_orientations_from_surface_points():
                 header['yllcorner'],
                 header['yllcorner'] + header['cellsize'] * header['nrows'],
                 -300 * ve, 0],
-        number_octree_levels=4,
+        refinement=4,
         structural_frame=structural_frame
     )
 

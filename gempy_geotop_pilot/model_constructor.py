@@ -30,7 +30,7 @@ def initialize_geomodel(data: pd.DataFrame, global_nugget=0.01) -> gp.data.GeoMo
     geo_model = gp.create_geomodel(
         project_name='Model1',
         extent=extent_from_data_raw,
-        number_octree_levels=1,
+        refinement=1,
         structural_frame=structural_frame
     )
     return geo_model
