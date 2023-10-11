@@ -26,7 +26,7 @@ def _setup_south_model_base(group_slicer):
         extent=geo_model.grid.regular_grid.extent,
         geo_model=geo_model
     )
-    geo_model.interpolation_options.dual_contouring = True
+    geo_model.interpolation_options.mesh_extraction = True
     kernel_options = geo_model.interpolation_options.kernel_options
     kernel_options.kernel_solver = Solvers.SCIPY_CG
     kernel_options.compute_condition_number = True

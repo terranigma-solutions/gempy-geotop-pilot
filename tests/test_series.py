@@ -58,7 +58,7 @@ def test_gempy_compute_group_2():
         geo_model=geo_model
     )
 
-    geo_model.interpolation_options.dual_contouring = True
+    geo_model.interpolation_options.mesh_extraction = True
 
     kernel_options = geo_model.interpolation_options.kernel_options
     kernel_options.kernel_solver = Solvers.SCIPY_CG
@@ -106,7 +106,7 @@ def test_gempy_compute_group_3_with_faults():
         geo_model=geo_model
     )
 
-    geo_model.interpolation_options.dual_contouring = True
+    geo_model.interpolation_options.mesh_extraction = True
 
     kernel_options = geo_model.interpolation_options.kernel_options
     kernel_options.kernel_solver = Solvers.SCIPY_CG

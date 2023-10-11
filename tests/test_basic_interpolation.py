@@ -18,7 +18,7 @@ def test_gempy_compute_AP_surface():
     )
 
     options = geo_model.interpolation_options
-    options.dual_contouring_fancy = False
+    options.mesh_extraction_fancy = False
 
     kernel_options = options.kernel_options
     kernel_options.kernel_solver = Solvers.DEFAULT
