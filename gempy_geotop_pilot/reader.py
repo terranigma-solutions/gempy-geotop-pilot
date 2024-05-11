@@ -66,7 +66,6 @@ def read_all_fault_data_to_mesh(path: str) -> Optional[list[subsurface.Unstructu
         all_faults = []
         sf = shapefile.Reader(os.path.join(path, shp_files[0]))  # ! Each file contains all the faults that offset a specific unit 
         for shape in sf.shapes():
-            print(shape)
             # Get the first shape (geometry)
             line_string = shape.points
 
