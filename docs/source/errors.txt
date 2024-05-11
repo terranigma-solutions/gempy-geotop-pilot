@@ -1,0 +1,28 @@
+ERROR: In vtkTextureObject.cxx, line 1025
+vtkTextureObject (0x560cc1968d60): Attempt to use a texture buffer exceeding your hardware's limits. This can happen when trying to color by cell data with a large dataset. Hardware limit is 65536 values while 498378 was requested.
+
+
+ERROR: In vtkTextureObject.cxx, line 1025
+vtkTextureObject (0x560cc1409740): Attempt to use a texture buffer exceeding your hardware's limits. This can happen when trying to color by cell data with a large dataset. Hardware limit is 65536 values while 195244 was requested.
+
+
+ERROR: In vtkTextureObject.cxx, line 1025
+vtkTextureObject (0x560cc2c9a4d0): Attempt to use a texture buffer exceeding your hardware's limits. This can happen when trying to color by cell data with a large dataset. Hardware limit is 65536 values while 87612 was requested.
+
+
+ERROR: In vtkTextureObject.cxx, line 1025
+vtkTextureObject (0x560cbc25e180): Attempt to use a texture buffer exceeding your hardware's limits. This can happen when trying to color by cell data with a large dataset. Hardware limit is 65536 values while 114840 was requested.
+
+
+ERROR: In vtkTextureObject.cxx, line 1025
+vtkTextureObject (0x560cc3025e50): Attempt to use a texture buffer exceeding your hardware's limits. This can happen when trying to color by cell data with a large dataset. Hardware limit is 65536 values while 95788 was requested.
+
+
+ERROR: In vtkTextureObject.cxx, line 1025
+vtkTextureObject (0x560cbc2414d0): Attempt to use a texture buffer exceeding your hardware's limits. This can happen when trying to color by cell data with a large dataset. Hardware limit is 65536 values while 78162 was requested.
+
+
+ERROR: In vtkTextureObject.cxx, line 1025
+vtkTextureObject (0x560cbd1fc7a0): Attempt to use a texture buffer exceeding your hardware's limits. This can happen when trying to color by cell data with a large dataset. Hardware limit is 65536 values while 106824 was requested.
+
+
