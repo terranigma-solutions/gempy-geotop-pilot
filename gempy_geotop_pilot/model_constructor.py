@@ -23,7 +23,6 @@ def initialize_geomodel(data: pd.DataFrame, global_nugget=0.01) -> gp.data.GeoMo
         surface_points=surface_points,
         orientations=gp.data.OrientationsTable(
             data=np.zeros(0, dtype=gp.data.OrientationsTable.dt),
-            
         )
     )
 

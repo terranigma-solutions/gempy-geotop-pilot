@@ -3,6 +3,36 @@
 This project is a first attempt to model some of the areas the Netherlands using GemPy and
 its supported packages.
 
+# Notes - Meeting 9.5.2024
+
+## Minimal Actionable actions for 2024
+
+### Resources:
+
+- Willem 3 weeks
+- Miguel - In kind
+- Reinder - In kind
+
+### Task:
+
+1) Setting up repository - Willem
+
+  1.1 Main project structure - Miguel
+
+2) Pilot projects (priority):
+
+  2.1 Subsection of South model - Miguel (High)
+
+    2.1.1 Clay layer - Willem (High)
+
+    2.1.2 Well correlation 40km 40 km
+
+  2.2 Zeeland - Reinder (Low)
+
+  2.4 Internal structural (Low)
+
+  2.5 Jan Diederik/Clinoform (Low)
+
 
 ## TODO:
 
