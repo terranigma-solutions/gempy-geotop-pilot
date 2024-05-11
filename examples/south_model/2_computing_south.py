@@ -16,9 +16,22 @@ import gempy_viewer as gpv
 # %%
 dotenv.load_dotenv()
 
-ve = 10
+geo_model = generate_south_model_base(group_slicer=slice(0, 10))
 
-geo_model = generate_south_model_base(group_slicer=slice(5, 7))
+# %%
+geo_model.interpolation_options.cache_mode = gp.data.InterpolationOptions.CacheMode.CACHE
+gp.compute_model(
+    gempy_model=geo_model,
+    engine_config=gp.data.GemPyEngineConfig(
+        backend=gp.data.AvailableBackends.numpy,
+        use_gpu=True,
+        dtype='float64'
+    )
+)
+
+# %%
+
+ve = 10
 gempy_plot3d = gpv.plot_3d(
     model=geo_model,
     show_data=True,
