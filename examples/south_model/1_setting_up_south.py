@@ -13,10 +13,10 @@ import pandas as pd
 import subsurface
 
 import gempy as gp
-from gempy_geotop_pilot.model_constructor import initialize_geomodel, add_fault_from_unstructured_data
-from gempy_geotop_pilot.geotop_stratigraphy import stratigraphy_pile, color_elements
-from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh, add_raw_faults_to_mesh
-from gempy_geotop_pilot.utils import plot_geotop
+from gempy_geotop.model_constructor import initialize_geomodel, add_fault_from_unstructured_data
+from gempy_geotop.geotop_stratigraphy import stratigraphy_pile, color_elements
+from gempy_geotop.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh, add_raw_faults_to_mesh
+from gempy_geotop.utils import plot_geotop
 
 #  Read wells
 

@@ -7,7 +7,7 @@ import pyvista as pv
 import gempy as gp
 from gempy_engine.core.data.kernel_classes.solvers import Solvers
 from gempy.core.data import GemPyEngineConfig
-from gempy_geotop_pilot.channels import read_ascii, extract_surface_points_and_orientations_from
+from gempy_geotop.channels import read_ascii, extract_surface_points_and_orientations_from
 import gempy_viewer as gpv
 
 config = dotenv_values()

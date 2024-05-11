@@ -2,10 +2,10 @@
 from dotenv import dotenv_values
 
 import gempy_viewer
-from gempy_geotop_pilot.model_constructor import initialize_geomodel
-from gempy_geotop_pilot.example_models import _setup_south_model
-from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh, DataSets, read_and_plot_faults
-from gempy_geotop_pilot.utils import plot_geotop
+from gempy_geotop.model_constructor import initialize_geomodel
+from gempy_geotop.example_models import _setup_south_model
+from gempy_geotop.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh, DataSets, read_and_plot_faults
+from gempy_geotop.utils import plot_geotop
 from tests.DEP.test_basic_interpolation import setup_AP_geomodel
 
 import gempy as gp

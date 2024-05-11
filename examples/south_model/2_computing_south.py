@@ -4,7 +4,7 @@ Reading all boreholes and set up the stratigraphic pile
 """
 import dotenv
 
-from gempy_geotop_pilot.example_models import generate_south_model_base
+from gempy_geotop.example_models import generate_south_model_base
 import gempy as gp
 import gempy_viewer as gpv
 

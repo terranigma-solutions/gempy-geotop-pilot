@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 import subsurface
-from gempy_geotop_pilot.utils import principal_orientations
+from gempy_geotop.utils import principal_orientations
 
 
 def initialize_geomodel(data: pd.DataFrame, global_nugget=0.01) -> gp.data.GeoModel:
