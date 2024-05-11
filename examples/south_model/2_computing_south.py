@@ -2,7 +2,6 @@
 Model 2 - Computing model
 =========================
 
-Reading all boreholes and set up the stratigraphic pile
 
 """
 import dotenv
@@ -51,6 +50,7 @@ gempy_plot3d = gpv.plot_3d(
 )
 
 # %%
+# sphinx_gallery_thumbnail_number = 2
 gpv.plot_2d(
     model=geo_model,
     section_names=['section1', 'section2', 'section3'],
