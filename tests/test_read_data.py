@@ -5,7 +5,8 @@ import pandas as pd
 from dotenv import dotenv_values
 import subsurface
 
-from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model, add_fault_from_unstructured_data
+from gempy_geotop_pilot.model_constructor import initialize_geomodel, add_fault_from_unstructured_data
+from gempy_geotop_pilot.example_models import _setup_south_model
 from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh, add_raw_faults_to_mesh
 from gempy_geotop_pilot.utils import plot_geotop
 from subsurface.modules.reader.profiles.profiles_core import create_mesh_from_trace
@@ -83,7 +84,7 @@ def test_read_all_boreholes_data_to_df():
 def test_config_south():
     data_south = read_all_boreholes_data_to_df(path_to_south_boreholes)
     geo_model = initialize_geomodel(data_south)
-    setup_south_model(
+    _setup_south_model(
         geo_model=geo_model,
         group_slicer=slice(0, 1)
     )

@@ -5,8 +5,8 @@ import gempy as gp
 import subsurface
 from gempy_engine.core.data.kernel_classes.solvers import Solvers
 from gempy.core.data.gempy_engine_config import GemPyEngineConfig
-from gempy_geotop_pilot.example_models import setup_south_model_base
-from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model, add_fault_from_unstructured_data
+from gempy_geotop_pilot.example_models import generate_south_model_base, _setup_south_model
+from gempy_geotop_pilot.model_constructor import initialize_geomodel, add_fault_from_unstructured_data
 from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, DataSets, read_and_plot_faults, \
     read_all_fault_data_to_mesh
 from gempy_geotop_pilot.utils import plot_geotop, _create_default_orientation
@@ -18,7 +18,7 @@ PLOT_3D = True
 def test_south_model_no_faults_only_wells():
     # * This is 11k points
 
-    geo_model = setup_south_model_base(group_slicer=slice(5, 7))
+    geo_model = generate_south_model_base(group_slicer=slice(5, 7))
 
     gp.compute_model(
         gempy_model=geo_model,
@@ -35,7 +35,7 @@ def test_south_model_no_faults_extra_points():
 
 
 def test_south_model_with_faults():
-    geo_model = setup_south_model_base(group_slicer=slice(0, 10))
+    geo_model = generate_south_model_base(group_slicer=slice(0, 10))
 
     all_faults_unstructs: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(
         path=config.get('FAULTS_SOUTH_FOLDER')

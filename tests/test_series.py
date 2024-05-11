@@ -3,7 +3,8 @@
 import gempy as gp
 from gempy_engine.core.data.kernel_classes.solvers import Solvers
 from gempy.core.data.gempy_engine_config import GemPyEngineConfig
-from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model, add_fault_from_unstructured_data
+from gempy_geotop_pilot.model_constructor import initialize_geomodel, add_fault_from_unstructured_data
+from gempy_geotop_pilot.example_models import _setup_south_model
 from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, DataSets, read_and_plot_faults, read_all_fault_data_to_mesh
 from gempy_geotop_pilot.utils import plot_geotop, _create_default_orientation
 from .test_read_data import path_to_south_boreholes, config
@@ -17,7 +18,7 @@ def test_gempy_compute_group_1():
         global_nugget=0.01
     )
 
-    setup_south_model(
+    _setup_south_model(
         geo_model=geo_model,
         group_slicer=slice(8, 9),
         max_depth= -500
@@ -48,7 +49,7 @@ def test_gempy_compute_group_2():
     model: gp.data.GeoModel = initialize_geomodel(data)
     geo_model = model
 
-    setup_south_model(
+    _setup_south_model(
         geo_model=geo_model,
         group_slicer=slice(0, 10)
     )
@@ -95,7 +96,7 @@ def test_gempy_compute_group_3_with_faults():
     BX = slice(1,3)
     BE = slice(2,3)
     ST = slice(3,4)
-    setup_south_model(
+    _setup_south_model(
         geo_model=geo_model,
         group_slicer=slice(0,1),
         max_depth=-50
