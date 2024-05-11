@@ -5,7 +5,7 @@ import gempy_viewer
 from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model
 from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh, DataSets, read_and_plot_faults
 from gempy_geotop_pilot.utils import plot_geotop
-from .test_basic_interpolation import setup_AP_geomodel
+from tests.DEP.test_basic_interpolation import setup_AP_geomodel
 
 import gempy as gp
 import gempy_viewer as gpv

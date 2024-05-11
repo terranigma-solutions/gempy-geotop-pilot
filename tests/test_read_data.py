@@ -27,19 +27,19 @@ def test_read_first_boreholes_file():
     else:
         print("No csv files found in the directory.")
         return None
-    
+
     pass
 
 
 def test_read_first_fault_file() -> (np.ndarray, np.ndarray):
     import shapefile
-    
+
     files = os.listdir(path_to_south_faults)
     shp_files = [f for f in files if f.endswith('.shp')]
-    
+
     if len(shp_files) > 0:
         sf = shapefile.Reader(os.path.join(path_to_south_faults, shp_files[0]))
-        
+
         # Get the first shape (geometry)
         first_shape = sf.shape(0)
         line_string = first_shape.points
@@ -47,12 +47,10 @@ def test_read_first_fault_file() -> (np.ndarray, np.ndarray):
         # Assuming 'zmax' is the second field and 'zmin' is the third
         zmax = 100  # * This has to come from the extent
         zmin = -500
-        
-        
 
         # Get the first record (attributes)
         first_record = sf.record(0)  # * Records are useful to define the fault network
-        
+
         ver, sim = create_mesh_from_trace(
             linestring=line_string,
             zmax=zmax,
@@ -63,19 +61,18 @@ def test_read_first_fault_file() -> (np.ndarray, np.ndarray):
         #     print(shape.points)  # This will give you the coordinates of the shape
         #     print(record)  # This will give you the associated attribute data
         return ver, sim
-    
+
     else:
         print("No shp files found in the directory.")
         return None
-    
-    
+
+
 def test_convert_unstructured_data_to_gempy_fault():
     all_unstruct: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(path_to_south_faults)
-    
+
     first_fault = all_unstruct[0]
     orientation_location = np.mean(first_fault.vertex, axis=0)
-    
-    
+
     pass
 
 
@@ -93,7 +90,7 @@ def test_config_south():
     print(geo_model.structural_frame)
 
     all_unstruct: list[subsurface.UnstructuredData] = read_all_fault_data_to_mesh(path_to_south_faults)
-    
+
     subset = all_unstruct[10:13]  # * 3 Faults at the west
     subset = all_unstruct[:]  # * All faults
 
@@ -107,5 +104,3 @@ def test_config_south():
     plot_3d = plot_geotop(geo_model, ve=1, image_3d=False, show=False)
     add_raw_faults_to_mesh(subset, plot_3d)
     plot_3d.p.show()
-
-

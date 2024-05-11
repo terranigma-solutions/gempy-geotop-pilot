@@ -3,7 +3,7 @@ import gempy_viewer as gpv
 from gempy.core.data.gempy_engine_config import GemPyEngineConfig
 from gempy_engine.core.data.kernel_classes.solvers import Solvers
 from gempy_geotop_pilot.model_constructor import initialize_geomodel
-from .test_read_data import test_read_first_boreholes_file
+from tests.test_read_data import test_read_first_boreholes_file
 
 PLOT_3D = True
 
