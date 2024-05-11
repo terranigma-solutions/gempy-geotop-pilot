@@ -1,4 +1,7 @@
 """
+Model 1 - Reading GeoTop Data
+=============================
+
 Reading all boreholes and set up the stratigraphic pile
 
 """

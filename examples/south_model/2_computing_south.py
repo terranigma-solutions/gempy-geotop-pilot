@@ -1,4 +1,7 @@
 """
+Model 2 - Computing model
+=========================
+
 Reading all boreholes and set up the stratigraphic pile
 
 """
