@@ -3,10 +3,10 @@
 import gempy as gp
 from gempy_engine.core.data.kernel_classes.solvers import Solvers
 from gempy.core.data.gempy_engine_config import GemPyEngineConfig
-from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model
+from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model, add_fault_from_unstructured_data
 from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, DataSets, read_and_plot_faults, read_all_fault_data_to_mesh
 from gempy_geotop_pilot.utils import plot_geotop, _create_default_orientation
-from .test_read_data import path_to_south_boreholes, config, add_fault_from_unstructured_data
+from .test_read_data import path_to_south_boreholes, config
 
 PLOT_3D = True
 

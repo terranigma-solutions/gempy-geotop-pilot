@@ -1,3 +1,5 @@
+from typing import Optional
+
 import os
 from enum import Enum, auto
 
@@ -52,7 +54,7 @@ def read_all_boreholes_data_to_df(path: str, dataset: DataSets = DataSets.ALL) -
     return data
 
 
-def read_all_fault_data_to_mesh(path: str) -> list[subsurface.UnstructuredData]:
+def read_all_fault_data_to_mesh(path: str) -> Optional[list[subsurface.UnstructuredData]]:
     import shapefile
 
     files = os.listdir(path)
@@ -103,7 +105,8 @@ def read_and_plot_faults(gempy_plot3d):
 
 
 def add_raw_faults_to_mesh(all_unstruct, gempy_plot3d):
+    from subsurface.modules.visualization import to_pyvista_mesh
     for unstruct in all_unstruct:
         trisurf = subsurface.TriSurf(unstruct)
-        vista_mesh: "pyvista.PolyData" = subsurface.visualization.to_pyvista_mesh(trisurf)
+        vista_mesh: "pyvista.PolyData" = to_pyvista_mesh(trisurf)
         gempy_plot3d.p.add_mesh(vista_mesh)
