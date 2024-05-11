@@ -2,7 +2,6 @@ import time
 import os
 import sys
 import warnings
-from gempy_geotop._version import __version__
 
 from sphinx_gallery.sorting import FileNameSortKey
 import pyvista
@@ -11,7 +10,6 @@ import numpy as np
 # External examples:
 sys.path.insert(0, os.path.abspath('.'))
 import make_external_gallery
-
 make_external_gallery.make_example_gallery()
 
 # -- PyVista settings -----------------------------------------------------
@@ -34,7 +32,6 @@ if not os.path.exists(pyvista.FIGURE_PATH):
     os.makedirs(pyvista.FIGURE_PATH)
 
 import gempy  # ! This seems important to load pykeops c++ library properly
-
 sys.path.insert(0, os.path.abspath('.'))
 
 # -- General configuration ------------------------------------------------
@@ -89,8 +86,8 @@ author = 'GemPy GeoTop Team'
 copyright = f'2023-{time.strftime("%Y")}, {author}'
 
 # |version| and |today| tags (|release|-tag is not used).
-version = __version__
-release = __version__
+version = 0.1
+release = 0.1
 today_fmt = '%d %B %Y'
 
 # List of patterns to ignore, relative to source directory.

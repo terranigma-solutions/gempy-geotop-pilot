@@ -52,7 +52,7 @@ setup(
             "root"            : ".",
             "relative_to"     : __file__,
             "write_to"        : path.join("gempy_geotop", "_version.py"),
-            "fallback_version": "3.0.0"
+            "fallback_version": "0.1.0"
     },
     zip_safe=False
 )
