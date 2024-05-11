@@ -27,7 +27,7 @@ def read_requirements(file_name, base_path=""):
 
 
 setup(
-    name='gempy',
+    name='gempy_geotop',
     # version=version,
     packages=find_packages(),
     url='',
@@ -37,7 +37,7 @@ setup(
     description='GemPy Examples with TNO data sets',
     install_requires=read_requirements("requirements.txt", "requirements"),
     extras_require={
-            "opt": read_requirements("optional_requirements.txt.txt", "requirements"),
+            "opt": read_requirements("optional_requirements.txt", "requirements"),
     },
     classifiers=[
             'Development Status :: 3 - Alpha',
