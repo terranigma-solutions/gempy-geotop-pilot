@@ -86,8 +86,8 @@ author = 'GemPy GeoTop Team'
 copyright = f'2023-{time.strftime("%Y")}, {author}'
 
 # |version| and |today| tags (|release|-tag is not used).
-version = 0.1
-release = 0.1
+version = "0.1"
+release = "0.1"
 today_fmt = '%d %B %Y'
 
 # List of patterns to ignore, relative to source directory.
