@@ -3,13 +3,13 @@
 import numpy as np
 import pandas as pd
 from dotenv import load_dotenv, dotenv_values
-from subsurface.reader.profiles.profiles_core import create_mesh_from_trace
 import subsurface
 
 import gempy as gp
 from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model
 from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df, read_all_fault_data_to_mesh, add_raw_faults_to_mesh
 from gempy_geotop_pilot.utils import plot_geotop, principal_orientations
+from subsurface.modules.reader.profiles.profiles_core import create_mesh_from_trace
 
 config = dotenv_values()
 path_to_south_boreholes = config.get('BOREHOLES_SOUTH_FOLDER')

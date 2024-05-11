@@ -1,13 +1,9 @@
-﻿import numpy as np
-import pandas as pd
-
-import gempy as gp
+﻿import gempy as gp
 import gempy_viewer as gpv
-from gempy_engine.core.data.kernel_classes.solvers import Solvers
 from gempy.core.data.gempy_engine_config import GemPyEngineConfig
-from gempy_geotop_pilot.model_constructor import initialize_geomodel, setup_south_model
-from gempy_geotop_pilot.reader import read_all_boreholes_data_to_df
-from .test_read_data import test_read_first_boreholes_file, path_to_south_boreholes
+from gempy_engine.core.data.kernel_classes.solvers import Solvers
+from gempy_geotop_pilot.model_constructor import initialize_geomodel
+from .test_read_data import test_read_first_boreholes_file
 
 PLOT_3D = True
 

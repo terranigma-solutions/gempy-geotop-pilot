@@ -4,8 +4,8 @@ from enum import Enum, auto
 import pandas as pd
 from dotenv import dotenv_values
 
-from subsurface.reader.profiles.profiles_core import create_mesh_from_trace
 import subsurface
+from subsurface.modules.reader.profiles.profiles_core import create_mesh_from_trace
 
 config = dotenv_values()
 path = config.get('BOREHOLES_SOUTH_FOLDER')
